@@ -53,7 +53,8 @@ const PatientTable = ({ patients, onDelete, loading = false, onRefresh, onAddPat
     if (window.confirm(`Apakah Anda yakin ingin menghapus data ${patient.nama_anak}?`)) {
       try {
         await onDelete(patient.id);
-      } catch (error) {
+      } catch (err) {
+        console.error('Delete error:', err);
         alert('Gagal menghapus data. Silakan coba lagi.');
       }
     }
@@ -140,7 +141,7 @@ const PatientTable = ({ patients, onDelete, loading = false, onRefresh, onAddPat
         </span>
         {searchTerm && (
           <span className="text-blue-600">
-            Hasil pencarian untuk: "{searchTerm}"
+            Hasil pencarian untuk: &quot;{searchTerm}&quot;
           </span>
         )}
       </div>

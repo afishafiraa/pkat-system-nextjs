@@ -1,41 +1,40 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import RegistrationSection from './sections/RegistrationSection';
-import ImmunizationSection from './sections/ImmunizationSection';
-import NutritionSection from './sections/NutritionSection';
-import AnthropometrySection from './sections/AnthropometrySection';
-import CareEnvironmentSection from './sections/CareEnvironmentSection';
-import DevelopmentCheckSection from './sections/DevelopmentCheckSection';
-import HearingTestSection from './sections/HearingTestSection';
-import ClinicalExaminationSection from './sections/ClinicalExaminationSection';
+import RegistrasiSection from './sections/RegistrasiSection';
+import PenilaianAwalSection from './sections/PenilaianAwalSection';
+import CekPerkembanganSection from './sections/CekPerkembanganSection';
+import TesDayaDengarSection from './sections/TesDayaDengarSection';
+import AntropometriSection from './sections/AntropometriSection';
+import PemeriksaanKlinisSection from './sections/PemeriksaanKlinisSection';
+import HasilAkhirSection from './sections/HasilAkhirSection';
 
 const SECTION_LABELS = {
-    registrations: 'Data Registrasi',
-    immunizations: 'Imunisasi',
-    nutrition: 'Nutrisi',
-    care_environment: 'Lingkungan Perawatan',
-    development_check: 'Pemeriksaan Perkembangan',
-    hearing_test: 'Tes Pendengaran',
-    anthropometry: 'Antropometri',
-    clinical_examination: 'Pemeriksaan Klinis'
+    registrasi: 'Data Registrasi',
+    penilaian_awal: 'Penilaian Awal',
+    cek_perkembangan: 'Cek Perkembangan',
+    tes_daya_dengar: 'Tes Daya Dengar',
+    antropometri: 'Antropometri',
+    pemeriksaan_klinis: 'Pemeriksaan Klinis',
+    hasil_akhir: 'Hasil Akhir'
 };
 
 const PatientDetailTabs = ({
-    sections,
+    // Remove unused props: sections, patientId, isSaving
+    // sections,
     activeSection,
     setActiveSection,
     sectionData,
     onUpdateSection,
-    patientId,
-    isNewPatient = false,
-    isSaving = false
+    // patientId, 
+    isNewPatient = false
 }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [formData, setFormData] = useState({});
     const [isEditing, setIsEditing] = useState(isNewPatient);
     const [hasChanges, setHasChanges] = useState(false);
-
+    
+    // Remove unused variables: handleCancel, isFormValid
     // Initialize form data when section changes or data loads
     useEffect(() => {
         setFormData(sectionData[activeSection] || {});
@@ -75,11 +74,11 @@ const PatientDetailTabs = ({
         setHasChanges(false);
     };
 
-    const handleCancel = () => {
-        setFormData(sectionData[activeSection] || {});
-        setIsEditing(isNewPatient);
-        setHasChanges(false);
-    };
+    // const handleCancel = () => {
+    //     setFormData(sectionData[activeSection] || {});
+    //     setIsEditing(isNewPatient);
+    //     setHasChanges(false);
+    // };
 
     const renderSectionForm = () => {
         const commonProps = {
@@ -89,33 +88,31 @@ const PatientDetailTabs = ({
         };
 
         switch (activeSection) {
-            case 'registrations':
-                return <RegistrationSection {...commonProps} />;
-            case 'immunizations':
-                return <ImmunizationSection {...commonProps} />;
-            case 'nutrition':
-                return <NutritionSection {...commonProps} />;
-            case 'anthropometry':
-                return <AnthropometrySection {...commonProps} />;
-            case 'care_environment':
-                return <CareEnvironmentSection {...commonProps} />;
-            case 'development_check':
-                return <DevelopmentCheckSection {...commonProps} />;
-            case 'hearing_test':
-                return <HearingTestSection {...commonProps} />;
-            case 'clinical_examination':
-                return <ClinicalExaminationSection {...commonProps} />;
+            case 'registrasi':
+                return <RegistrasiSection {...commonProps} />;
+            case 'penilaian_awal':
+                return <PenilaianAwalSection {...commonProps} />;
+            case 'cek_perkembangan':
+                return <CekPerkembanganSection {...commonProps} />;
+            case 'tes_daya_dengar':
+                return <TesDayaDengarSection {...commonProps} />;
+            case 'antropometri':
+                return <AntropometriSection {...commonProps} />;
+            case 'pemeriksaan_klinis':
+                return <PemeriksaanKlinisSection {...commonProps} />;
+            case 'hasil_akhir':
+                return <HasilAkhirSection {...commonProps} />;
             default:
                 return <div>Section not found</div>;
         }
     };
 
-    const isFormValid = () => {
-        if (activeSection === 'registrations') {
-            return formData.nama_anak && formData.jenis_kelamin && formData.tanggal_lahir && formData.nik_ibu && formData.nama_ibu;
-        }
-        return true;
-    };
+    // const isFormValid = () => {
+    //     if (activeSection === 'registrasi') {
+    //         return formData.nama_anak && formData.jenis_kelamin && formData.tanggal_lahir && formData.nik_ibu && formData.nama_ibu;
+    //     }
+    //     return true;
+    // };
 
     return (
         <div className="bg-white rounded-lg shadow">

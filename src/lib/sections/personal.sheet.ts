@@ -1,6 +1,6 @@
 import { sheets, spreadsheetId } from '../sheets';
 
-export const RANGE = '1_Registration!A2:U'; // A1 = header, up to column U
+export const RANGE = '1_Registration!A2:W'; // A1 = header, up to column U
 
 // Interface for the complete registration data
 export interface RegistrationData {
@@ -9,22 +9,24 @@ export interface RegistrationData {
   jenis_kelamin: string; // C
   tanggal_lahir: string; // D
   usia_gestasi: string; // E
-  no_kohort_bayi: string; // F
-  nik_ibu: string; // G
-  nik_anak: string; // H
-  nama_ibu: string; // I
-  nama_bapak: string; // J
-  pekerjaan_ibu?: string; // K - optional
-  pekerjaan_bapak?: string; // L - optional
-  no_hp_ibu?: string; // M - optional
-  no_hp_bapak?: string; // N - optional
-  pendamping?: string; // O - optional
-  alamat: string; // P
-  catatan?: string; // Q - optional
-  nama_petugas?: string; // R - optional
-  created_at: string; // S
-  updated_at: string; // T
-  tanggal_kunjungan: string; // U
+  usia_saat_ini: string; // F - optional
+  usia_koreksi?: string; // G - optional
+  no_kohort_bayi: string; // H
+  nik_ibu: string; // I
+  nik_anak: string; // J
+  nama_ibu: string; // K
+  nama_bapak: string; // L
+  pekerjaan_ibu?: string; // M - optional
+  pekerjaan_bapak?: string; // N - optional
+  no_hp_ibu?: string; // O - optional
+  no_hp_bapak?: string; // P - optional
+  pendamping?: string; // Q - optional
+  alamat: string; // R
+  catatan?: string; // S - optional
+  nama_petugas?: string; // T - optional
+  created_at: string; // U
+  updated_at: string; // V
+  tanggal_kunjungan: string; // W
 }
 
 // Interface for new patient registration (POST data)
@@ -52,22 +54,24 @@ export async function createRegistration(data: NewPatientData) {
     data.jenis_kelamin, // C
     data.tanggal_lahir, // D
     data.usia_gestasi, // E
-    data.no_kohort_bayi, // F
-    data.nik_ibu, // G
-    data.nik_anak, // H
-    data.nama_ibu, // I
-    data.nama_bapak, // J
-    '', // K - pekerjaan_ibu (empty for new registration)
-    '', // L - pekerjaan_bapak (empty for new registration)
-    '', // M - no_hp_ibu (empty for new registration)
-    '', // N - no_hp_bapak (empty for new registration)
-    '', // O - pendamping (empty for new registration)
-    data.alamat, // P
-    '', // Q - catatan (empty for new registration)
-    '', // R - nama petugas (empty for new registration)
-    now, // S - created_at
-    now, // T - updated_at
-    data.tanggal_kunjungan, // U
+    '', // F - usia saat ini (empty for new registration)
+    '', // G - usia koreksi (empty for new registration)
+    data.no_kohort_bayi, // H
+    data.nik_ibu, // I
+    data.nik_anak, // J
+    data.nama_ibu, // K
+    data.nama_bapak, // L
+    '', // M - pekerjaan_ibu (empty for new registration)
+    '', // N - pekerjaan_bapak (empty for new registration)
+    '', // O - no_hp_ibu (empty for new registration)
+    '', // P - no_hp_bapak (empty for new registration)
+    '', // Q - pendamping (empty for new registration)
+    data.alamat, // R
+    '', // S - catatan (empty for new registration)
+    '', // T - nama petugas (empty for new registration)
+    now, // U - created_at
+    now, // V - updated_at
+    data.tanggal_kunjungan, // W
   ];
 
   await sheets.spreadsheets.values.append({
@@ -98,22 +102,24 @@ export const getAllPersonal = async () => {
     jenis_kelamin: row[2] || '',
     tanggal_lahir: row[3] || '',
     usia_gestasi: row[4] || '',
-    no_kohort_bayi: row[5] || '',
-    nik_ibu: row[6] || '',
-    nik_anak: row[7] || '',
-    nama_ibu: row[8] || '',
-    nama_bapak: row[9] || '',
-    pekerjaan_ibu: row[10] || '',
-    pekerjaan_bapak: row[11] || '',
-    no_hp_ibu: row[12] || '',
-    no_hp_bapak: row[13] || '',
-    pendamping: row[14] || '',
-    alamat: row[15] || '',
-    catatan: row[16] || '',
-    nama_petugas: row[17] || '',
-    created_at: row[18] || '',
-    updated_at: row[19] || '',
-    tanggal_kunjungan: row[20] || '',
+    usia_saat_ini: row[5] || '',
+    usia_koreksi: row[6] || '',
+    no_kohort_bayi: row[7] || '',
+    nik_ibu: row[8] || '',
+    nik_anak: row[9] || '',
+    nama_ibu: row[10] || '',
+    nama_bapak: row[11] || '',
+    pekerjaan_ibu: row[12] || '',
+    pekerjaan_bapak: row[13] || '',
+    no_hp_ibu: row[14] || '',
+    no_hp_bapak: row[15] || '',
+    pendamping: row[16] || '',
+    alamat: row[17] || '',
+    catatan: row[18] || '',
+    nama_petugas: row[19] || '',
+    created_at: row[20] || '',
+    updated_at: row[21] || '',
+    tanggal_kunjungan: row[22] || '',
   }));
 };
 
@@ -134,22 +140,24 @@ export async function getRegistrationById(id: string) {
     jenis_kelamin: data[2] || '',
     tanggal_lahir: data[3] || '',
     usia_gestasi: data[4] || '',
-    no_kohort_bayi: data[5] || '',
-    nik_ibu: data[6] || '',
-    nik_anak: data[7] || '',
-    nama_ibu: data[8] || '',
-    nama_bapak: data[9] || '',
-    pekerjaan_ibu: data[10] || '',
-    pekerjaan_bapak: data[11] || '',
-    no_hp_ibu: data[12] || '',
-    no_hp_bapak: data[13] || '',
-    pendamping: data[14] || '',
-    alamat: data[15] || '',
-    catatan: data[16] || '',
-    nama_petugas: data[17] || '',
-    created_at: data[18] || '',
-    updated_at: data[19] || '',
-    tanggal_kunjungan: data[20] || '',
+    usia_saat_ini: data[5] || '',
+    usia_koreksi: data[6] || '',
+    no_kohort_bayi: data[7] || '',
+    nik_ibu: data[8] || '',
+    nik_anak: data[9] || '',
+    nama_ibu: data[10] || '',
+    nama_bapak: data[11] || '',
+    pekerjaan_ibu: data[12] || '',
+    pekerjaan_bapak: data[13] || '',
+    no_hp_ibu: data[14] || '',
+    no_hp_bapak: data[15] || '',
+    pendamping: data[16] || '',
+    alamat: data[17] || '',
+    catatan: data[18] || '',
+    nama_petugas: data[19] || '',
+    created_at: data[20] || '',
+    updated_at: data[21] || '',
+    tanggal_kunjungan: data[22] || '',
   };
 }
 
@@ -172,22 +180,24 @@ export async function updateRegistrationById(id: string, newData: Partial<Regist
     newData.jenis_kelamin ?? existingData[2], // C
     newData.tanggal_lahir ?? existingData[3], // D
     newData.usia_gestasi ?? existingData[4], // E
-    newData.no_kohort_bayi ?? existingData[5], // F
-    newData.nik_ibu ?? existingData[6], // G
-    newData.nik_anak ?? existingData[7], // H
-    newData.nama_ibu ?? existingData[8], // I
-    newData.nama_bapak ?? existingData[9], // J
-    newData.pekerjaan_ibu ?? existingData[10], // K
-    newData.pekerjaan_bapak ?? existingData[11], // L
-    newData.no_hp_ibu ?? existingData[12], // M
-    newData.no_hp_bapak ?? existingData[13], // N
-    newData.pendamping ?? existingData[14], // O
-    newData.alamat ?? existingData[15], // P
-    newData.catatan ?? existingData[16], // Q
-    newData.nama_petugas ?? existingData[17], // R
-    existingData[18], // S - keep original created_at
-    now, // T - update updated_at
-    newData.tanggal_kunjungan ?? existingData[20], // U
+    newData.usia_saat_ini ?? existingData[5], // F
+    newData.usia_koreksi ?? existingData[6], // G
+    newData.no_kohort_bayi ?? existingData[7], // H
+    newData.nik_ibu ?? existingData[8], // I
+    newData.nik_anak ?? existingData[9], // J
+    newData.nama_ibu ?? existingData[10], // K
+    newData.nama_bapak ?? existingData[11], // L
+    newData.pekerjaan_ibu ?? existingData[12], // M
+    newData.pekerjaan_bapak ?? existingData[13], // N
+    newData.no_hp_ibu ?? existingData[14], // O
+    newData.no_hp_bapak ?? existingData[15], // P
+    newData.pendamping ?? existingData[16], // Q
+    newData.alamat ?? existingData[17], // R
+    newData.catatan ?? existingData[18], // S
+    newData.nama_petugas ?? existingData[19], // T
+    existingData[20], // U - keep original created_at
+    now, // V - update updated_at
+    newData.tanggal_kunjungan ?? existingData[22], // W
   ];
 
   await sheets.spreadsheets.values.update({

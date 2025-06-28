@@ -13,11 +13,11 @@ const SECTIONS = [
 ];
 
 export default function PrintPreview() {
-  const [data, setData] = useState<Record<string, any[][]>>({});
+  const [data, setData] = useState<Record<string, string[][]>>({});
 
   useEffect(() => {
     const fetchData = async () => {
-      const result: Record<string, any[][]> = {};
+      const result: Record<string, string[][]> = {};
       for (const section of SECTIONS) {
         const range = `${section}!A2:Z`;
         const res = await sheets.spreadsheets.values.get({ spreadsheetId, range });
@@ -51,3 +51,12 @@ export default function PrintPreview() {
     </div>
   );
 }
+
+// Replace any types with proper types
+// Remove the unused PrintPreviewProps interface entirely
+// Or if you need it, use it in the component:
+
+// interface PrintPreviewProps {
+//   patient: Record<string, unknown>;
+//   sectionData: Record<string, unknown>;
+// }
