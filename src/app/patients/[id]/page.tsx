@@ -140,10 +140,8 @@ export default function PatientDetailPage() {
   };
 
   useEffect(() => {
-    if (patientId) {
-      fetchPatientData();
-    }
-  }, [fetchPatientData, patientId]);
+    fetchPatientData();
+  }, [patientId]);
 
   const updateSectionData = async (section: string, data: Record<string, unknown>) => {
     try {
