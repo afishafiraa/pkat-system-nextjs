@@ -285,7 +285,7 @@ const AddPatientModal: React.FC<AddPatientModalProps> = ({ isOpen, onClose, onSu
 
           <div className="mt-4 p-3 bg-gray-100 rounded-md">
             <p className="text-sm text-gray-800">
-              💡 <strong>Tips:</strong> Data yang disimpan di sini adalah data dasar. Untuk melengkapi data detail seperti pengukuran antropometri, silakan klik "Detail" setelah data tersimpan.
+              💡 <strong>Tips:</strong> Data yang disimpan di sini adalah data dasar. Untuk melengkapi data detail seperti pengukuran antropometri, silakan klik &quot;Detail&quot; setelah data tersimpan.
             </p>
           </div>
         </div>
@@ -397,7 +397,7 @@ export default function Home() {
     } catch (error) {
       setShowModal(true);
       setModalType('error');
-      setModalMessage('Gagal menambahkan data. Silakan coba lagi.');
+      setModalMessage('Gagal menambahkan data. Silahkan coba lagi.');
       console.error('Error creating patient:', error);
       throw error;
       setTimeout(() => {

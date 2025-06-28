@@ -20,20 +20,21 @@ const SECTION_LABELS = {
 };
 
 const PatientDetailTabs = ({
-    sections,
+    // Remove unused props: sections, patientId, isSaving
+    // sections,
     activeSection,
     setActiveSection,
     sectionData,
     onUpdateSection,
-    patientId,
-    isNewPatient = false,
-    isSaving = false
+    // patientId, 
+    isNewPatient = false
 }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [formData, setFormData] = useState({});
     const [isEditing, setIsEditing] = useState(isNewPatient);
     const [hasChanges, setHasChanges] = useState(false);
-
+    
+    // Remove unused variables: handleCancel, isFormValid
     // Initialize form data when section changes or data loads
     useEffect(() => {
         setFormData(sectionData[activeSection] || {});
@@ -73,11 +74,11 @@ const PatientDetailTabs = ({
         setHasChanges(false);
     };
 
-    const handleCancel = () => {
-        setFormData(sectionData[activeSection] || {});
-        setIsEditing(isNewPatient);
-        setHasChanges(false);
-    };
+    // const handleCancel = () => {
+    //     setFormData(sectionData[activeSection] || {});
+    //     setIsEditing(isNewPatient);
+    //     setHasChanges(false);
+    // };
 
     const renderSectionForm = () => {
         const commonProps = {
@@ -106,12 +107,12 @@ const PatientDetailTabs = ({
         }
     };
 
-    const isFormValid = () => {
-        if (activeSection === 'registrasi') {
-            return formData.nama_anak && formData.jenis_kelamin && formData.tanggal_lahir && formData.nik_ibu && formData.nama_ibu;
-        }
-        return true;
-    };
+    // const isFormValid = () => {
+    //     if (activeSection === 'registrasi') {
+    //         return formData.nama_anak && formData.jenis_kelamin && formData.tanggal_lahir && formData.nik_ibu && formData.nama_ibu;
+    //     }
+    //     return true;
+    // };
 
     return (
         <div className="bg-white rounded-lg shadow">

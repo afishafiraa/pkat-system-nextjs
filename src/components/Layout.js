@@ -1,11 +1,9 @@
 'use client';
 
 import Head from 'next/head';
-import { useRouter } from 'next/navigation';
+// Remove unused import: import { useRouter } from 'next/navigation';
 
 const Layout = ({ children, title = 'PKAT System' }) => {
-//   const router = useRouter();
-
   return (
     <>
       <Head>

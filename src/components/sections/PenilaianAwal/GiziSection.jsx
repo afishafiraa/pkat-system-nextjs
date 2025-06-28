@@ -1,5 +1,5 @@
-import { Label } from "../../ui/label";
 import { Input } from "../../ui/input";
+import { Label } from "../../ui/label";
 
 const GiziSection = ({ formData, handleInputChange, isEditing }) => {
     const renderRadioGroup = (name, options) => (
@@ -82,14 +82,16 @@ const GiziSection = ({ formData, handleInputChange, isEditing }) => {
                     </Label>
                     <div className="flex items-center space-x-2">
                         {[1, 2, 3, 4, 5, 6].map((month) => (
-                            <div key={month} className="flex items-center space-x-1">
-                                <input
-                                    type="checkbox"
+                            <div key={month} className="flex items-center space-x-2">
+                                <Input
+                                    type="radio"
                                     id={`mp_asi_month_${month}`}
-                                    checked={formData[`mp_asi_month_${month}`] || false}
-                                    onChange={(e) => handleInputChange(`mp_asi_month_${month}`, e.target.checked)}
+                                    name="mp_asi_month"
+                                    value={month}
+                                    checked={formData.mp_asi_month === month.toString()}
+                                    onChange={(e) => handleInputChange('mp_asi_month', e.target.value)}
                                     disabled={!isEditing}
-                                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
                                 />
                                 <Label htmlFor={`mp_asi_month_${month}`} className="text-sm text-gray-700">
                                     {month}
@@ -114,25 +116,43 @@ const GiziSection = ({ formData, handleInputChange, isEditing }) => {
                             { id: 'mpasi_vitamin_a', label: '6. Buah dan sayur kaya vitamin A', description: 'pepaya, mangga, wortel, dan sayuran berdaun hijau gelap seperti bayam, kangkung, daun katuk, daun singkong, daun kelor, brokoli, dll' },
                             { id: 'mpasi_buah_sayur_lain', label: '7. Buah dan sayur lainnya', description: 'pisang, jeruk, semangka, kol, kembang kol, kacang panjang, terong, kecambah, buncis, kacang panjang, terong, kecambah, dll' }
                         ].map((item) => (
-                            <div key={item.id} className="flex items-start space-x-2">
-                                <Input
-                                    type="checkbox"
-                                    id={item.id}
-                                    checked={formData[item.id] || false}
-                                    onChange={(e) => handleInputChange(item.id, e.target.checked)}
-                                    disabled={!isEditing}
-                                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
-                                />
-                                <div>
-                                    <Label htmlFor={item.id} className="text-sm text-gray-700">
-                                        {item.label}
-                                    </Label>
-                                    {item.description && (
-                                        <div className="text-sm text-gray-600 mb-2">
-                                            {item.description}
-                                        </div>
-                                    )}
+                            <div key={item.id} className="space-y-2">
+                                <div className="flex items-start space-x-2">
+                                    <Input
+                                        type="checkbox"
+                                        id={item.id}
+                                        checked={formData[item.id] || false}
+                                        onChange={(e) => handleInputChange(item.id, e.target.checked)}
+                                        disabled={!isEditing}
+                                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
+                                    />
+                                    <div>
+                                        <Label htmlFor={item.id} className="text-sm text-gray-700">
+                                            {item.label}
+                                        </Label>
+                                        {item.description && (
+                                            <div className="text-sm text-gray-600 mb-2">
+                                                {item.description}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
+                                {formData[item.id] && (
+                                    <div className="ml-6">
+                                        <Label htmlFor={`${item.id}_keterangan`} className="text-sm font-medium text-gray-700 mb-1 block">
+                                            Keterangan
+                                        </Label>
+                                        <Input
+                                            type="text"
+                                            id={`${item.id}_keterangan`}
+                                            value={formData[`${item.id}_keterangan`] || ''}
+                                            onChange={(e) => handleInputChange(`${item.id}_keterangan`, e.target.value)}
+                                            disabled={!isEditing}
+                                            placeholder="Masukkan keterangan..."
+                                            className="w-full"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -146,11 +166,20 @@ const GiziSection = ({ formData, handleInputChange, isEditing }) => {
                     <Label className="text-sm font-medium text-gray-700 mb-2 block">
                         Bentuk / Tekstur
                     </Label>
-                    {renderCheckboxGroup('bentuk_tekstur', [
+                    {renderRadioGroup('bentuk_tekstur', [
                         { value: 'disaring', label: 'Disaring' },
                         { value: 'dihaluskan', label: 'Dihaluskan' },
                         { value: 'dicincang', label: 'Dicincang' }
                     ])}
+                    <Input
+                        type="text"
+                        id="bentuk_tekstur_lainnya"
+                        value={formData.bentuk_tekstur_lainnya || ''}
+                        onChange={(e) => handleInputChange('bentuk_tekstur_lainnya', e.target.value)}
+                        disabled={!isEditing}
+                        placeholder="Sebutkan..."
+                        className="mt-1 max-w-xs"
+                    />
                 </div>
 
                 {/* Frekuensi Makan */}

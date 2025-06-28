@@ -8,10 +8,20 @@ import { RegistrationData } from '../../../lib/sections/personal.sheet';
 import LoadingModal from '@/components/ui/LoadingModal';
 
 // Use the same interface as defined in personal-sheet.ts
-interface Patient extends RegistrationData {}
+interface Patient extends Omit<RegistrationData, 'id' | 'created_at' | 'updated_at'> {
+  id?: string;
+  created_at?: string;
+  updated_at?: string;
+}
 
 interface SectionData {
-  [key: string]: any;
+  registrasi: Record<string, unknown>;
+  penilaian_awal: Record<string, unknown>;
+  cek_perkembangan: Record<string, unknown>;
+  tes_daya_dengar: Record<string, unknown>;
+  antropometri: Record<string, unknown>;
+  pemeriksaan_klinis: Record<string, unknown>;
+  hasil_akhir: Record<string, unknown>;
 }
 
 const SECTIONS = {
@@ -31,6 +41,7 @@ const newPatientTemplate: Patient = {
   jenis_kelamin: '',
   tanggal_lahir: '',
   usia_gestasi: '',
+  usia_saat_ini: '',
   no_kohort_bayi: '',
   nik_ibu: '',
   nik_anak: '',
@@ -57,8 +68,16 @@ export default function PatientDetailPage() {
   const [patient, setPatient] = useState<Patient | null>(null);
   const [activeSection, setActiveSection] = useState(SECTIONS.REGISTRASI);
   const [loading, setLoading] = useState(true);
-  const [sectionData, setSectionData] = useState<SectionData>({});
-  const [isSaving, setIsSaving] = useState(false);
+  const [sectionData, setSectionData] = useState<SectionData>({
+    registrasi: {},
+    penilaian_awal: {},
+    cek_perkembangan: {},
+    tes_daya_dengar: {},
+    antropometri: {},
+    pemeriksaan_klinis: {},
+    hasil_akhir: {}
+  });
+  // const [isSaving, setIsSaving] = useState(false);
   
   // Add new modal states
   const [showModal, setShowModal] = useState(false);
@@ -73,10 +92,13 @@ export default function PatientDetailPage() {
         // Initialize new patient with empty template
         setPatient(newPatientTemplate);
         setSectionData({
-          registrations: newPatientTemplate,
-          immunizations: {},
-          nutrition: {},
-          anthropometry: {}
+          registrasi: { ...newPatientTemplate } as Record<string, unknown>,
+          penilaian_awal: {},
+          cek_perkembangan: {},
+          tes_daya_dengar: {},
+          antropometri: {},
+          pemeriksaan_klinis: {},
+          hasil_akhir: {}
         });
       } else {
         // Fetch existing patient data from API
@@ -87,13 +109,22 @@ export default function PatientDetailPage() {
           
           // Fetch all section data
           const allSectionData: SectionData = {
-            registrations: patientData,
-            immunizations: {},
-            nutrition: {},
-            anthropometry: {}
+            registrasi: patientData,
+            penilaian_awal: {},
+            cek_perkembangan: {},
+            tes_daya_dengar: {},
+            antropometri: {},
+            pemeriksaan_klinis: {},
+            hasil_akhir: {}
           };
           
           // TODO: Fetch data for other sections when APIs are ready
+          // You can add individual API calls here for each section:
+          // const penilaianAwalResponse = await fetch(`/api/penilaian_awal/${patientId}`);
+          // if (penilaianAwalResponse.ok) {
+          //   allSectionData.penilaian_awal = await penilaianAwalResponse.json();
+          // }
+          
           setSectionData(allSectionData);
         } else {
           setPatient(null);
@@ -109,17 +140,19 @@ export default function PatientDetailPage() {
   };
 
   useEffect(() => {
-    fetchPatientData();
-  }, [patientId]);
+    if (patientId) {
+      fetchPatientData();
+    }
+  }, [fetchPatientData, patientId]);
 
-  const updateSectionData = async (section: string, data: any) => {
+  const updateSectionData = async (section: string, data: Record<string, unknown>) => {
     try {
-      setIsSaving(true);
+      // setIsSaving(true);
       setShowModal(true);
       setModalType('loading');
       setModalMessage('Menyimpan...');
       
-      if (section === 'registrations') {
+      if (section === 'registrasi') {
         if (isNewPatient) {
           // Create new patient
           const response = await fetch('/api/personal', {
@@ -145,6 +178,9 @@ export default function PatientDetailPage() {
             setShowModal(true);
             setModalType('error');
             setModalMessage('Gagal menambahkan pasien. Silahkan coba lagi.');
+            setTimeout(() => {
+              setShowModal(false);
+            }, 2000);
             throw new Error('Failed to create patient');
           }
         } else {
@@ -178,8 +214,8 @@ export default function PatientDetailPage() {
         [section]: data
       }));
       
-      if (section === 'registrations') {
-        setPatient(data);
+      if (section === 'registrasi') {
+        setPatient(data as unknown as Patient);
       }
       
       // Show success modal
@@ -196,9 +232,11 @@ export default function PatientDetailPage() {
       setShowModal(true);
       setModalType('error');
       setModalMessage('Gagal memperbarui data. Silahkan coba lagi.');
-    //   alert('Gagal memperbarui data. Silakan coba lagi.');
+      setTimeout(() => {
+        setShowModal(false);
+      }, 2000);
     } finally {
-      setIsSaving(false);
+      // setIsSaving(false);
     }
   };
 
@@ -266,14 +304,14 @@ export default function PatientDetailPage() {
 
         {/* Tabbed Sections */}
         <PatientDetailTabs
-          sections={SECTIONS}
+          // sections={SECTIONS}
           activeSection={activeSection}
           setActiveSection={setActiveSection}
           sectionData={sectionData}
           onUpdateSection={updateSectionData}
-          patientId={patientId}
+          // patientId={patientId}
           isNewPatient={isNewPatient}
-          isSaving={isSaving}
+          // isSaving={isSaving}
         />
       </div>
 
