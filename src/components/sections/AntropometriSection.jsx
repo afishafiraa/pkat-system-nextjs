@@ -1,4 +1,4 @@
-const AnthropometrySection = ({ formData, handleInputChange, isEditing }) => {
+const AntropometriSection = ({ formData, handleInputChange, isEditing }) => {
     return (
         <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -43,4 +43,4 @@ const AnthropometrySection = ({ formData, handleInputChange, isEditing }) => {
     );
 };
 
-export default AnthropometrySection;
+export default AntropometriSection;

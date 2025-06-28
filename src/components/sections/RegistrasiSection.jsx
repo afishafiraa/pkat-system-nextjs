@@ -2,7 +2,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 
-const RegistrationSection = ({ formData, handleInputChange, isEditing }) => {
+const RegistrasiSection = ({ formData, handleInputChange, isEditing }) => {
     return (
         <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -221,4 +221,4 @@ const RegistrationSection = ({ formData, handleInputChange, isEditing }) => {
     );
 };
 
-export default RegistrationSection;
+export default RegistrasiSection;

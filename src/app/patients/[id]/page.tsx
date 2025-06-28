@@ -15,14 +15,13 @@ interface SectionData {
 }
 
 const SECTIONS = {
-  REGISTRATIONS: 'registrations',
-  IMMUNIZATIONS: 'immunizations',
-  NUTRITION: 'nutrition',
-  CARE_ENVIRONMENT: 'care_environment',
-  DEVELOPMENT_CHECK: 'development_check',
-  HEARING_TEST: 'hearing_test',
-  ANTHROPOMETRY: 'anthropometry',
-  CLINICAL_EXAMINATION: 'clinical_examination'
+  REGISTRASI: 'registrasi',
+  PENILAIAN_AWAL: 'penilaian_awal',
+  CEK_PERKEMBANGAN: 'cek_perkembangan',
+  TES_DAYA_DENGAR: 'tes_daya_dengar',
+  ANTROPOMETRI: 'antropometri',
+  PEMERIKSAAN_KLINIS: 'pemeriksaan_klinis',
+  HASIL_AKHIR: 'hasil_akhir',
 };
 
 // Empty template for new patient
@@ -56,7 +55,7 @@ export default function PatientDetailPage() {
   const isNewPatient = patientId === 'new';
   
   const [patient, setPatient] = useState<Patient | null>(null);
-  const [activeSection, setActiveSection] = useState(SECTIONS.REGISTRATIONS);
+  const [activeSection, setActiveSection] = useState(SECTIONS.REGISTRASI);
   const [loading, setLoading] = useState(true);
   const [sectionData, setSectionData] = useState<SectionData>({});
   const [isSaving, setIsSaving] = useState(false);
